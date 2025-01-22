@@ -1,0 +1,28 @@
+{
+  "name": "supermarioworldapi",
+  "version": "1.0.0",
+  "description": "A Super Mario World API é um projeto que visa catalogar uma ampla variedade de elementos do clássico jogo Super Mario World (1990) para o Super Nintendo. Este projeto oferece uma maneira organizada e acessível de explorar os diversos aspectos do jogo, incluindo:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianCotrim/SuperMarioWorldAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrianCotrim/SuperMarioWorldAPI/issues"
+  },
+  "homepage": "https://github.com/AdrianCotrim/SuperMarioWorldAPI#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
