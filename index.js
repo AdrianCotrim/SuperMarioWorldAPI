@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
 const db = require('./models'); // Importa os modelos do Sequelize
 
+const characterRoutes = require('./routes/characterRoutes')
+
 app.use(express.json());
+app.use('/characters', characterRoutes)
 
 app.get('/', (req, res) => {
   res.send('Super Mario API está no ar!');
@@ -20,5 +22,5 @@ db.sequelize.sync({ force: false }) // force: false para preservar os dados exis
   });
 
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta: ${port}`);
+  console.log(`Servidor rodando na porta: http://localhost:${port}/`);
 });
