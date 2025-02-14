@@ -5,11 +5,13 @@ const db = require('./models');
 
 const characterRoutes = require('./routes/characterRoutes')
 const bossRoutes = require('./routes/bossRoutes')
+const collectableRoutes = require('./routes/collectableRoutes')
 
 app.use(express.json());
 app.use('/images', express.static('public/images'));
 app.use('/characters', characterRoutes)
 app.use('/bosses', bossRoutes)
+app.use('/collectables', collectableRoutes)
 
 
 app.get('/', (req, res) => {
