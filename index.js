@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const db = require('./models'); // Importa os modelos do Sequelize
+const db = require('./models'); 
 
 const characterRoutes = require('./routes/characterRoutes')
 
 app.use(express.json());
+app.use('/images', express.static('public/images'));
 app.use('/characters', characterRoutes)
+
 
 app.get('/', (req, res) => {
   res.send('Super Mario API está no ar!');
