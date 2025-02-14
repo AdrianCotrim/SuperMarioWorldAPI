@@ -7,6 +7,7 @@ const characterRoutes = require('./routes/characterRoutes')
 const bossRoutes = require('./routes/bossRoutes')
 const collectableRoutes = require('./routes/collectableRoutes')
 const enemyRoutes = require('./routes/enemyRoutes');
+const worldRoutes = require('./routes/worldRoutes')
 
 app.use(express.json());
 app.use('/images', express.static('public/images'));
@@ -14,6 +15,7 @@ app.use('/characters', characterRoutes)
 app.use('/bosses', bossRoutes)
 app.use('/collectables', collectableRoutes)
 app.use('/enemies', enemyRoutes)
+app.use('/worlds', worldRoutes)
 
 
 app.get('/', (req, res) => {
