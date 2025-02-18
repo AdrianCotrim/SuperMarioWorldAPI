@@ -21,5 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false 
     });
 
+    WorldBoss.associate = function(models) {
+        WorldBoss.belongsTo(models.World, { foreignKey: 'world_id' });
+        WorldBoss.belongsTo(models.Boss, { foreignKey: 'boss_id' });
+    };
+
     return WorldBoss;
 };

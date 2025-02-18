@@ -17,5 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false 
     });
 
+    World.associate = function(models) {
+        World.hasMany(models.WorldBoss, { foreignKey: 'world_id' });
+        World.hasMany(models.WorldEnemy, { foreignKey: 'world_id' });
+    };
+
     return World;
 };
