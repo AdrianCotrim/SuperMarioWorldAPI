@@ -25,5 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false 
     });
 
+    Enemy.associate = function(models) {
+        Enemy.hasMany(models.WorldEnemy, { foreignKey: 'enemy_id' });
+    };
+
     return Enemy;
 };
