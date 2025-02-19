@@ -1,69 +1,46 @@
-const pool = require('../db');
-const { WorldBoss, World, Boss } = require('../models');
+const { WorldBoss, Boss } = require('../models');
+const asyncHandler = require('../middleware/asyncHandler');
 
-const createWorldBoss = async (req, res) => {
+const createWorldBoss = asyncHandler(async (req, res) => {
     const { world_id, boss_id } = req.body;
 
-    try {
-        // Verifica se o relacionamento já existe
-        const existingRelation = await WorldBoss.findOne({ where: { world_id, boss_id } });
-        if (existingRelation) {
-            return res.status(400).json({ message: 'Este relacionamento já existe.' });
-        }
-
-        // Cria o novo relacionamento
-        const newWorldBoss = await WorldBoss.create({ world_id, boss_id });
-
-        return res.status(201).json(newWorldBoss);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao criar o relacionamento.' });
+    // Verifica se o relacionamento já existe
+    const existingRelation = await WorldBoss.findOne({ where: { world_id, boss_id } });
+    if (existingRelation) {
+        return res.status(400).json({ error: 'This relationship already exists.' });
     }
-};
 
-const getBossesByWorld = async (req, res) => {
+    // Cria o novo relacionamento
+    const newWorldBoss = await WorldBoss.create({ world_id, boss_id });
+    res.status(201).json(newWorldBoss);
+});
+
+const getBossesByWorld = asyncHandler(async (req, res) => {
     const { world_id } = req.params;
 
-    try {
-        const worldBosses = await WorldBoss.findAll({
-            where: { world_id },
-            include: [
-                {
-                    model: Boss,
-                    attributes: ['id', 'name']  // Retorna apenas o id e name do boss
-                }
-            ]
-        });
+    const worldBosses = await WorldBoss.findAll({
+        where: { world_id },
+        include: [{ model: Boss, attributes: ['id', 'name'] }] // Retorna apenas o id e nome do boss
+    });
 
-        if (worldBosses.length === 0) {
-            return res.status(404).json({ message: 'Nenhum boss encontrado para esse mundo.' });
-        }
-
-        return res.status(200).json(worldBosses);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao buscar os bosses.' });
+    if (worldBosses.length === 0) {
+        return res.status(404).json({ error: 'No bosses found for this world.' });
     }
-};
 
-const deleteWorldBoss = async (req, res) => {
+    res.json(worldBosses);
+});
+
+const deleteWorldBoss = asyncHandler(async (req, res) => {
     const { world_id, boss_id } = req.params;
 
-    try {
-        const deletedCount = await WorldBoss.destroy({
-            where: { world_id, boss_id }
-        });
+    const deletedCount = await WorldBoss.destroy({ where: { world_id, boss_id } });
 
-        if (deletedCount === 0) {
-            return res.status(404).json({ message: 'Relacionamento não encontrado.' });
-        }
-
-        return res.status(200).json({ message: 'Relacionamento excluído com sucesso.' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao excluir o relacionamento.' });
+    if (deletedCount === 0) {
+        return res.status(404).json({ error: 'Relationship not found.' });
     }
-};
+
+    res.json({ message: 'Relationship successfully deleted.' });
+});
 
 module.exports = {
     createWorldBoss,

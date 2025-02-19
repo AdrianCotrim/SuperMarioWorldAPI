@@ -1,82 +1,68 @@
 const { WorldEnemy, Enemy } = require('../models');
+const asyncHandler = require('../middleware/asyncHandler');
 
-const createWorldEnemy = async (req, res) => {
+const createWorldEnemy = asyncHandler(async (req, res) => {
     const { world_id, enemy_id } = req.body;
 
     // Verifica se os IDs foram fornecidos
     if (!world_id || !enemy_id) {
-        return res.status(400).json({ message: 'world_id e enemy_id são obrigatórios.' });
+        return res.status(400).json({ error: 'world_id and enemy_id are required.' });
     }
 
-    try {
-        // Verifica se o relacionamento já existe
-        const existingRelation = await WorldEnemy.findOne({ where: { world_id, enemy_id } });
-        if (existingRelation) {
-            return res.status(400).json({ message: 'Este relacionamento já existe.' });
-        }
-
-        // Cria o novo relacionamento
-        const newWorldEnemy = await WorldEnemy.create({ world_id, enemy_id });
-
-        return res.status(201).json(newWorldEnemy);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao criar o relacionamento.' });
+    // Verifica se o relacionamento já existe
+    const existingRelation = await WorldEnemy.findOne({ where: { world_id, enemy_id } });
+    if (existingRelation) {
+        return res.status(400).json({ error: 'This relationship already exists.' });
     }
-};
 
-const getEnemyByWorld = async (req, res) => {
+    // Cria o novo relacionamento
+    const newWorldEnemy = await WorldEnemy.create({ world_id, enemy_id });
+    res.status(201).json(newWorldEnemy);
+});
+
+const getEnemyByWorld = asyncHandler(async (req, res) => {
     const { world_id } = req.params;
 
+    // Verifica se world_id foi fornecido
     if (!world_id) {
-        return res.status(400).json({ message: 'world_id é obrigatório.' });
+        return res.status(400).json({ error: 'world_id is required.' });
     }
 
-    try {
-        const worldEnemies = await WorldEnemy.findAll({
-            where: { world_id },
-            include: [{
-                model: Enemy,
-                attributes: ['id', 'name']  // Retorna apenas o id e name do inimigo
-            }]
-        });
+    const worldEnemies = await WorldEnemy.findAll({
+        where: { world_id },
+        include: [{
+            model: Enemy,
+            attributes: ['id', 'name'] // Retorna apenas id e name do inimigo
+        }]
+    });
 
-        if (worldEnemies.length === 0) {
-            return res.status(404).json({ message: 'Nenhum inimigo encontrado para esse mundo.' });
-        }
-
-        // Retorna apenas a lista de inimigos, não os detalhes da relação
-        const enemies = worldEnemies.map(we => we.Enemy);
-
-        return res.status(200).json(enemies);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao buscar os inimigos.' });
+    if (worldEnemies.length === 0) {
+        return res.status(404).json({ error: 'No enemies found for this world.' });
     }
-};
 
-const deleteWorldEnemy = async (req, res) => {
+    // Retorna apenas a lista de inimigos
+    const enemies = worldEnemies.map(we => we.Enemy);
+    res.status(200).json(enemies);
+});
+
+const deleteWorldEnemy = asyncHandler(async (req, res) => {
     const { world_id, enemy_id } = req.params;
 
+    // Verifica se world_id e enemy_id foram fornecidos
     if (!world_id || !enemy_id) {
-        return res.status(400).json({ message: 'world_id e enemy_id são obrigatórios.' });
+        return res.status(400).json({ error: 'world_id and enemy_id are required.' });
     }
 
-    try {
-        const deletedCount = await WorldEnemy.destroy({
-            where: { world_id, enemy_id }
-        });
+    const deletedCount = await WorldEnemy.destroy({
+        where: { world_id, enemy_id }
+    });
 
-        if (deletedCount === 0) {
-            return res.status(404).json({ message: 'Relacionamento não encontrado.' });
-        }
-
-        return res.status(200).json({ message: 'Relacionamento excluído com sucesso.' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Erro ao excluir o relacionamento.' });
+    if (deletedCount === 0) {
+        return res.status(404).json({ error: 'Relationship not found.' });
     }
-};
+
+    res.status(200).json({ message: 'Relationship successfully deleted.' });
+});
 
 module.exports = {
     createWorldEnemy,

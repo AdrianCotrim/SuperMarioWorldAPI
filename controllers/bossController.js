@@ -1,63 +1,63 @@
 const pool = require('../db');
+const asyncHandler = require('../middleware/asyncHandler');
 
-const getAllBosses = async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM bosses')
-        res.send(result.rows);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar chefes' });
-    }
-}
+const getAllBosses = asyncHandler(async (req, res) => {
+    const { rows } = await pool.query('SELECT * FROM bosses');
+    res.json(rows);
+});
 
-const getBossById = async (req, res) => {
+const getBossById = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const result = await pool.query('SELECT * FROM bosses WHERE id = $1', [id])
-        if(result.rows.length === 0) {
-            return res.status(404).json({ error: 'Chefe não encontrado' })
-        }
-        res.send(result.rows);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar boss' });
-    }
-}
+    const { rows } = await pool.query('SELECT * FROM bosses WHERE id = $1', [id]);
 
-const createNewBoss = async (req, res) => {
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Boss not found' });
+    }
+
+    res.json(rows[0]);
+});
+
+const createNewBoss = asyncHandler(async (req, res) => {
     const { name, description, image, hp } = req.body;
-    try {
-        const result = await pool.query('INSERT INTO bosses (name, description, image, hp) VALUES ($1, $2, $3, $4) RETURNING *', [name, description, image, hp]);
-        res.status(201).json(result.rows[0])
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar chefe'})
-    }
-}
 
-const updateBoss = async (req, res) => {
+    if (!name || !description || !hp) {
+        return res.status(400).json({ error: 'Name, description and HP are required' });
+    }
+
+    const { rows } = await pool.query(
+        'INSERT INTO bosses (name, description, image, hp) VALUES ($1, $2, $3, $4) RETURNING *',
+        [name, description, image || null, hp]
+    );
+
+    res.status(201).json(rows[0]);
+});
+
+const updateBoss = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { name, description, image, hp } = req.body;
-    try {
-        const result = await pool.query('UPDATE bosses SET name = $1, description = $2, image = $3, hp = $4 WHERE id = $5 RETURNING *', [name, description, image, hp, id])
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Chefe não encontrado'})
-        }
-        res.json(result.rows[0])
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar chefe'})
-    }
-}
 
-const deleteBoss = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const result = await pool.query('DELETE FROM bosses WHERE id = $1 RETURNING *', [id])
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Chefe não encontrado'})
-        }
-        res.json({ message: 'Chefe deletado com sucesso'})
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao deletar chefe'})
+    const { rows } = await pool.query(
+        'UPDATE bosses SET name = $1, description = $2, image = $3, hp = $4 WHERE id = $5 RETURNING *',
+        [name, description, image, hp, id]
+    );
+
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Boss not found for update' });
     }
-}
+
+    res.json(rows[0]);
+});
+
+const deleteBoss = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { rows } = await pool.query('DELETE FROM bosses WHERE id = $1 RETURNING *', [id]);
+
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Boss not found for delete' });
+    }
+
+    res.json({ message: 'Boss successfully deleted' });
+});
 
 module.exports = {
     getAllBosses,

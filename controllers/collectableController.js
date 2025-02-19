@@ -1,63 +1,54 @@
 const pool = require('../db');
+const asyncHandler = require('../middleware/asyncHandler');
 
-const getAllCollectables = async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM collectables');
-        res.json(result.rows);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar coletáveis', details: error.message });
-    }
-}
+const getAllCollectables = asyncHandler(async (req, res) => {
+    const { rows } = await pool.query('SELECT * FROM collectables');
+    res.json(rows);
+});
 
-const getCollectableById = async (req, res) => { 
+const getCollectableById = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const result = await pool.query('SELECT * FROM collectables WHERE id = $1', [id]);
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Coletável não encontrado' });
-        }
-        res.json(result.rows[0]);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar coletável', details: error.message });
-    }
-}
+    const { rows } = await pool.query('SELECT * FROM collectables WHERE id = $1', [id]);
 
-const createNewCollectable = async (req, res) => {
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Collectable not found' });
+    }
+    res.json(rows[0]);
+});
+
+const createNewCollectable = asyncHandler(async (req, res) => {
     const { name, type, description, image, value } = req.body;
-    try {
-        const result = await pool.query('INSERT INTO collectables (name, type, description, image, value) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, type, description, image, value]);
-        res.status(201).json(result.rows[0]);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar coletável', details: error.message });
-    }
-}
+    const { rows } = await pool.query(
+        'INSERT INTO collectables (name, type, description, image, value) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [name, type, description, image, value]
+    );
 
-const updateCollectable = async (req, res) => {
+    res.status(201).json(rows[0]);
+});
+
+const updateCollectable = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { name, type, description, image, value } = req.body;
-    try {
-        const result = await pool.query('UPDATE collectables SET name = $1, type = $2, description = $3, image = $4, value = $5 WHERE id = $6 RETURNING *', [name, type, description, image, value, id]);
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Coletável não encontrado' });
-        }
-        res.json(result.rows[0]);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar coletável', details: error.message });
-    }
-}
+    const { rows } = await pool.query(
+        'UPDATE collectables SET name = $1, type = $2, description = $3, image = $4, value = $5 WHERE id = $6 RETURNING *',
+        [name, type, description, image, value, id]
+    );
 
-const deleteCollectable = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const result = await pool.query('DELETE FROM collectables WHERE id = $1 RETURNING *', [id]);
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Coletável não encontrado' });
-        }
-        res.json({ message: 'Coletável deletado com sucesso' });
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao deletar coletável', details: error.message });
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Collectable not found' });
     }
-}
+    res.json(rows[0]);
+});
+
+const deleteCollectable = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { rows } = await pool.query('DELETE FROM collectables WHERE id = $1 RETURNING *', [id]);
+
+    if (rows.length === 0) {
+        return res.status(404).json({ error: 'Collectable not found' });
+    }
+    res.json({ message: 'Collectable successfully deleted' });
+});
 
 module.exports = {
     getAllCollectables,
