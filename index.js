@@ -12,7 +12,8 @@ const world_bossRoutes = require('./routes/world_bossRoutes')
 const world_enemyRoutes = require('./routes/world_enemyRoutes')
 
 app.use(express.json());
-app.use('/images', express.static('public/images'));
+app.use(express.static('public'));
+
 app.use('/characters', characterRoutes)
 app.use('/bosses', bossRoutes)
 app.use('/collectables', collectableRoutes)

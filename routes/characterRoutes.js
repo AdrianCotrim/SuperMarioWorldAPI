@@ -4,6 +4,7 @@ const characterController = require('../controllers/characterController')
 
 router.get('/', characterController.getAllCharacters);
 router.get('/:id', characterController.getCharacterById);
+router.get('/:id/image', characterController.getCharacterImage);
 router.post('/', characterController.createNewCharacter);
 router.put('/:id', characterController.updateCharacter)
 router.delete('/:id', characterController.deleteCharacter)
