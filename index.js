@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 3000;
 const db = require('./models'); 
@@ -13,6 +14,7 @@ const world_enemyRoutes = require('./routes/world_enemyRoutes')
 
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cors());
 
 app.use('/characters', characterRoutes)
 app.use('/bosses', bossRoutes)
@@ -24,7 +26,7 @@ app.use('/world_enemy', world_enemyRoutes)
 
 
 app.get('/', (req, res) => {
-  res.send('Super Mario API está no ar!');
+  res.json({ mensagem: "Super Mario API está no ar!" });
 });
 
 // Sincronização com o banco de dados
