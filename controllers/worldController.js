@@ -1,4 +1,8 @@
 const pool = require('../db');
+const path = require('path');
+const fs = require('fs');
+const asyncHandler = require('../middleware/asyncHandler');
+const { World } = require('../models');
 
 const getAllWorlds = async (req, res) => {
     try {
@@ -21,6 +25,32 @@ const getWorldById = async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar Mundo' });
     }
 }
+
+const getWorldImage = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const world = await World.findByPk(id);
+  
+    if (!world) {
+      return res.status(404).json({ error: 'Mundo não encontrado' });
+    }
+  
+    if (!world.image) {
+      return res.status(404).json({ error: 'Mundo não possui imagem' });
+    }
+  
+    const imagePath = path.join(__dirname, '..', 'public', 'images', 'worlds', String(world.image));
+  
+    if (!fs.existsSync(imagePath)) {
+      return res.status(404).json({ error: 'Imagem não encontrada' });
+    }
+  
+    res.sendFile(imagePath, err => {
+      if (err) {
+        console.error('Erro ao enviar imagem:', err);
+        return res.status(err.status || 500).end();
+      }
+    });
+  });
 
 const createNewWorld = async (req, res) => {
     const { name, description, image } = req.body;
@@ -62,6 +92,7 @@ const deleteWorld = async (req, res) => {
 module.exports = {
     getAllWorlds,
     getWorldById,
+    getWorldImage,
     createNewWorld,
     updateWorld,
     deleteWorld

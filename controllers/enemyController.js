@@ -1,5 +1,8 @@
 const pool = require('../db');
+const path = require('path');
+const fs = require('fs');
 const asyncHandler = require('../middleware/asyncHandler');
+const { Enemy } = require('../models');
 
 const getAllEnemies = asyncHandler(async (req, res) => {
     const { rows } = await pool.query('SELECT * FROM enemies');
@@ -15,6 +18,32 @@ const getEnemyById = asyncHandler(async (req, res) => {
     }
     res.json(rows[0]);
 });
+
+const getEnemyImage = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const enemy = await Enemy.findByPk(id);
+  
+    if (!enemy) {
+      return res.status(404).json({ error: 'Inimigo não encontrado' });
+    }
+  
+    if (!enemy.image) {
+      return res.status(404).json({ error: 'Inimigo não possui imagem' });
+    }
+  
+    const imagePath = path.join(__dirname, '..', 'public', 'images', 'enemies', String(enemy.image));
+  
+    if (!fs.existsSync(imagePath)) {
+      return res.status(404).json({ error: 'Imagem não encontrada' });
+    }
+  
+    res.sendFile(imagePath, err => {
+      if (err) {
+        console.error('Erro ao enviar imagem:', err);
+        return res.status(err.status || 500).end();
+      }
+    });
+  });
 
 const createNewEnemy = asyncHandler(async (req, res) => {
     const { name, description, image, hp, behaviour } = req.body;
@@ -53,6 +82,7 @@ const deleteEnemy = asyncHandler(async (req, res) => {
 module.exports = {
     getAllEnemies,
     getEnemyById,
+    getEnemyImage,
     createNewEnemy,
     updateEnemy,
     deleteEnemy

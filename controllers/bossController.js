@@ -1,5 +1,8 @@
 const pool = require('../db');
+const path = require('path');
+const fs = require('fs');
 const asyncHandler = require('../middleware/asyncHandler');
+const { Boss } = require('../models');
 
 const getAllBosses = asyncHandler(async (req, res) => {
     const { rows } = await pool.query('SELECT * FROM bosses');
@@ -16,6 +19,32 @@ const getBossById = asyncHandler(async (req, res) => {
 
     res.json(rows[0]);
 });
+
+const getBossImage = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const boss = await Boss.findByPk(id);
+  
+    if (!boss) {
+      return res.status(404).json({ error: 'Boss não encontrado' });
+    }
+  
+    if (!boss.image) {
+      return res.status(404).json({ error: 'Boss não possui imagem' });
+    }
+  
+    const imagePath = path.join(__dirname, '..', 'public', 'images', 'bosses', String(boss.image));
+  
+    if (!fs.existsSync(imagePath)) {
+      return res.status(404).json({ error: 'Imagem não encontrada' });
+    }
+  
+    res.sendFile(imagePath, err => {
+      if (err) {
+        console.error('Erro ao enviar imagem:', err);
+        return res.status(err.status || 500).end();
+      }
+    });
+  });
 
 const createNewBoss = asyncHandler(async (req, res) => {
     const { name, description, image, hp } = req.body;
@@ -62,6 +91,7 @@ const deleteBoss = asyncHandler(async (req, res) => {
 module.exports = {
     getAllBosses,
     getBossById,
+    getBossImage,
     createNewBoss,
     updateBoss,
     deleteBoss
