@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Collectable = sequelize.define('Collectable', { 
+    const Item = sequelize.define('Item', { 
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     }, {
-        tableName: 'collectables', 
+        tableName: 'items', 
         timestamps: false 
     });
 
-    return Collectable;
+    return Item;
 };

@@ -6,7 +6,7 @@ const db = require('./models');
 
 const characterRoutes = require('./routes/characterRoutes')
 const bossRoutes = require('./routes/bossRoutes')
-const collectableRoutes = require('./routes/collectableRoutes')
+const itemRoutes = require('./routes/itemRoutes')
 const enemyRoutes = require('./routes/enemyRoutes');
 const worldRoutes = require('./routes/worldRoutes')
 const world_bossRoutes = require('./routes/world_bossRoutes')
@@ -18,7 +18,7 @@ app.use(cors());
 
 app.use('/characters', characterRoutes)
 app.use('/bosses', bossRoutes)
-app.use('/collectables', collectableRoutes)
+app.use('/items', itemRoutes)
 app.use('/enemies', enemyRoutes)
 app.use('/worlds', worldRoutes)
 app.use('/world_boss', world_bossRoutes)
