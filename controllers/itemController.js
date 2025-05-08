@@ -1,5 +1,8 @@
 const pool = require('../db');
+const path = require('path');
+const fs = require('fs');
 const asyncHandler = require('../middleware/asyncHandler');
+const { Item } = require('../models');
 
 const getAllItems = asyncHandler(async (req, res) => {
     const { rows } = await pool.query('SELECT * FROM items');
@@ -15,6 +18,32 @@ const getItemById = asyncHandler(async (req, res) => {
     }
     res.json(rows[0]);
 });
+
+const getItemImage = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const item = await Item.findByPk(id);
+  
+    if (!item) {
+      return res.status(404).json({ error: 'Item não encontrado' });
+    }
+  
+    if (!item.image) {
+      return res.status(404).json({ error: 'Item não possui imagem' });
+    }
+  
+    const imagePath = path.join(__dirname, '..', 'public', 'images', 'items', String(item.image));
+  
+    if (!fs.existsSync(imagePath)) {
+      return res.status(404).json({ error: 'Imagem não encontrada' });
+    }
+  
+    res.sendFile(imagePath, err => {
+      if (err) {
+        console.error('Erro ao enviar imagem:', err);
+        return res.status(err.status || 500).end();
+      }
+    });
+  });
 
 const createNewItem = asyncHandler(async (req, res) => {
     const { name, type, description, image, value } = req.body;
@@ -53,6 +82,7 @@ const deleteItem = asyncHandler(async (req, res) => {
 module.exports = {
     getAllItems,
     getItemById,
+    getItemImage,
     createNewItem,
     updateItem,
     deleteItem
