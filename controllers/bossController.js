@@ -5,7 +5,17 @@ const asyncHandler = require('../middleware/asyncHandler');
 const { Boss } = require('../models');
 
 const getAllBosses = asyncHandler(async (req, res) => {
-    const { rows } = await pool.query('SELECT * FROM bosses');
+    const { name } = req.query;
+
+    let query = 'SELECT * FROM bosses';
+    const values = [];
+
+    if(name){
+        query += ' WHERE name ILIKE $1';
+        values.push(`%${name}%`)
+    }
+
+    const { rows } = await pool.query(query, values);
     res.json(rows);
 });
 

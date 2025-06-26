@@ -5,12 +5,18 @@ const asyncHandler = require('../middleware/asyncHandler');
 const { World } = require('../models');
 
 const getAllWorlds = async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM worlds')
-        res.send(result.rows);
-    } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar mundos' });
+    const { name } = req.query;
+
+    let query = 'SELECT * FROM worlds';
+    const values = [];
+
+    if(name){
+        query += ' WHERE name ILIKE $1';
+        values.push(`%${name}%`)
     }
+
+    const { rows } = await pool.query(query, values);
+    res.json(rows);
 }
 
 const getWorldById = async (req, res) => {

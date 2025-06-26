@@ -5,8 +5,18 @@ const asyncHandler = require('../middleware/asyncHandler');
 const { Character } = require('../models');
 
 const getAllCharacters = asyncHandler(async (req, res) => {
-    const { rows } = await pool.query('SELECT * FROM characters');
-    res.json(rows);
+  const { name } = req.query;
+
+  let query = 'SELECT * FROM characters';
+  const values = [];
+
+  if(name){
+    query += ' WHERE name ILIKE $1';
+    values.push(`%${name}%`)
+  }
+
+  const { rows } = await pool.query(query, values);
+  res.json(rows);
 });
 
 const getCharacterById = asyncHandler(async (req, res) => {

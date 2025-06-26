@@ -5,7 +5,17 @@ const asyncHandler = require('../middleware/asyncHandler');
 const { Item } = require('../models');
 
 const getAllItems = asyncHandler(async (req, res) => {
-    const { rows } = await pool.query('SELECT * FROM items');
+    const { name } = req.query;
+
+    let query = 'SELECT * FROM items';
+    const values = [];
+
+    if(name){
+        query += ' WHERE name ILIKE $1';
+        values.push(`%${name}%`)
+    }
+
+    const { rows } = await pool.query(query, values);
     res.json(rows);
 });
 
