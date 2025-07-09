@@ -36,13 +36,15 @@ const getCharacterImage = asyncHandler(async (req, res) => {
     if (!character) {
       return res.status(404).json({ error: 'Personagem não encontrado' });
     }
+
+    await character.reload();
   
     if (!character.image) {
       return res.status(404).json({ error: 'Personagem não possui imagem' });
     }
   
     const imagePath = path.join(__dirname, '..', 'public', 'images', 'characters', String(character.image));
-  
+
     if (!fs.existsSync(imagePath)) {
       return res.status(404).json({ error: 'Imagem não encontrada' });
     }
