@@ -15,6 +15,12 @@ const createWorldBoss = asyncHandler(async (req, res) => {
     res.status(201).json(newWorldBoss);
 });
 
+const getAllWorldBosses = asyncHandler(async (req, res) => {
+    const worldBosses = await WorldBoss.findAll();
+    res.json(worldBosses);
+});
+
+
 const getBossesByWorld = asyncHandler(async (req, res) => {
     const { world_id } = req.params;
 
@@ -44,6 +50,7 @@ const deleteWorldBoss = asyncHandler(async (req, res) => {
 
 module.exports = {
     createWorldBoss,
+    getAllWorldBosses,
     getBossesByWorld,
     deleteWorldBoss
 };

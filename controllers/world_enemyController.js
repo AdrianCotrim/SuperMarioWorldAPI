@@ -20,6 +20,11 @@ const createWorldEnemy = asyncHandler(async (req, res) => {
     res.status(201).json(newWorldEnemy);
 });
 
+const getAllWorldEnemies = asyncHandler(async (req, res) => {
+    const worldEnemies = await WorldEnemy.findAll();
+    res.json(worldEnemies);
+});
+
 const getEnemyByWorld = asyncHandler(async (req, res) => {
     const { world_id } = req.params;
 
@@ -66,6 +71,7 @@ const deleteWorldEnemy = asyncHandler(async (req, res) => {
 
 module.exports = {
     createWorldEnemy,
+    getAllWorldEnemies,
     getEnemyByWorld,
     deleteWorldEnemy
 };
