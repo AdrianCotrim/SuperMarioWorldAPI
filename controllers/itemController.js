@@ -34,22 +34,22 @@ const getItemImage = asyncHandler(async (req, res) => {
     const item = await Item.findByPk(id);
   
     if (!item) {
-      return res.status(404).json({ error: 'Item não encontrado' });
+      return res.status(404).json({ error: 'Item not found' });
     }
   
     if (!item.image) {
-      return res.status(404).json({ error: 'Item não possui imagem' });
+      return res.status(404).json({ error: 'Item does not have image' });
     }
   
     const imagePath = path.join(__dirname, '..', 'public', 'images', 'items', String(item.image));
   
     if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({ error: 'Imagem não encontrada' });
+      return res.status(404).json({ error: 'Image not found' });
     }
   
     res.sendFile(imagePath, err => {
       if (err) {
-        console.error('Erro ao enviar imagem:', err);
+        console.error('Error when uploading image:', err);
         return res.status(err.status || 500).end();
       }
     });

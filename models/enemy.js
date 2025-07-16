@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Enemy = sequelize.define('Enemy', { 
+    const Enemy = sequelize.define('Enemy', {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     }, {
-        tableName: 'enemies', 
-        timestamps: false 
+        tableName: 'enemies',
+        timestamps: false
     });
 
-    Enemy.associate = function(models) {
+    Enemy.associate = function (models) {
         Enemy.hasMany(models.WorldEnemy, { foreignKey: 'enemy_id' });
     };
 

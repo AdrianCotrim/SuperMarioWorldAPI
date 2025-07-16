@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const WorldEnemy = sequelize.define('WorldEnemy', { 
+    const WorldEnemy = sequelize.define('WorldEnemy', {
         world_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     }, {
-        tableName: 'world_enemy', 
-        timestamps: false 
+        tableName: 'world_enemy',
+        timestamps: false
     });
 
-    WorldEnemy.associate = function(models) {
+    WorldEnemy.associate = function (models) {
         WorldEnemy.belongsTo(models.World, { foreignKey: 'world_id' });
         WorldEnemy.belongsTo(models.Enemy, { foreignKey: 'enemy_id' });
-    };    
+    };
 
     return WorldEnemy;
 };

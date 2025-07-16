@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3000;
-const db = require('./models'); 
+const db = require('./models');
 
 const characterRoutes = require('./routes/characterRoutes')
 const bossRoutes = require('./routes/bossRoutes')
@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
   res.json({ mensagem: "Super Mario API está no ar!" });
 });
 
-// Sincronização com o banco de dados
-db.sequelize.sync({ force: false }) // force: false para preservar os dados existentes
+
+db.sequelize.sync({ force: false })
   .then(() => {
     console.log('Banco de dados sincronizado com sucesso!');
   })

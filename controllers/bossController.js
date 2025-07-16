@@ -35,22 +35,22 @@ const getBossImage = asyncHandler(async (req, res) => {
     const boss = await Boss.findByPk(id);
   
     if (!boss) {
-      return res.status(404).json({ error: 'Boss não encontrado' });
+      return res.status(404).json({ error: 'Boss not found' });
     }
   
     if (!boss.image) {
-      return res.status(404).json({ error: 'Boss não possui imagem' });
+      return res.status(404).json({ error: 'Boss does not have image' });
     }
   
     const imagePath = path.join(__dirname, '..', 'public', 'images', 'bosses', String(boss.image));
   
     if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({ error: 'Imagem não encontrada' });
+      return res.status(404).json({ error: 'Image not found' });
     }
   
     res.sendFile(imagePath, err => {
       if (err) {
-        console.error('Erro ao enviar imagem:', err);
+        console.error('Error when uploading image:', err);
         return res.status(err.status || 500).end();
       }
     });

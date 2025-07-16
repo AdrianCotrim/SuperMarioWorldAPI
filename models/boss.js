@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Boss = sequelize.define('Boss', { 
+    const Boss = sequelize.define('Boss', {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     }, {
-        tableName: 'bosses', 
-        timestamps: false 
+        tableName: 'bosses',
+        timestamps: false
     });
 
-    Boss.associate = function(models) {
+    Boss.associate = function (models) {
         Boss.hasMany(models.WorldBoss, { foreignKey: 'boss_id' });
     };
 

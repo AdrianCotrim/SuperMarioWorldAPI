@@ -34,24 +34,24 @@ const getCharacterImage = asyncHandler(async (req, res) => {
     const character = await Character.findByPk(id);
   
     if (!character) {
-      return res.status(404).json({ error: 'Personagem não encontrado' });
+      return res.status(404).json({ error: 'Character not found' });
     }
 
     await character.reload();
   
     if (!character.image) {
-      return res.status(404).json({ error: 'Personagem não possui imagem' });
+      return res.status(404).json({ error: 'Character does not have image' });
     }
   
     const imagePath = path.join(__dirname, '..', 'public', 'images', 'characters', String(character.image));
 
     if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({ error: 'Imagem não encontrada' });
+      return res.status(404).json({ error: 'Image not found' });
     }
   
     res.sendFile(imagePath, err => {
       if (err) {
-        console.error('Erro ao enviar imagem:', err);
+        console.error('Error when uploading image:', err);
         return res.status(err.status || 500).end();
       }
     });

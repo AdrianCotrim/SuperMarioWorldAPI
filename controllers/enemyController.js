@@ -34,22 +34,22 @@ const getEnemyImage = asyncHandler(async (req, res) => {
     const enemy = await Enemy.findByPk(id);
   
     if (!enemy) {
-      return res.status(404).json({ error: 'Inimigo não encontrado' });
+      return res.status(404).json({ error: 'Enemy not found' });
     }
   
     if (!enemy.image) {
-      return res.status(404).json({ error: 'Inimigo não possui imagem' });
+      return res.status(404).json({ error: 'Enemy does not have image' });
     }
   
     const imagePath = path.join(__dirname, '..', 'public', 'images', 'enemies', String(enemy.image));
   
     if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({ error: 'Imagem não encontrada' });
+      return res.status(404).json({ error: 'Image not found' });
     }
   
     res.sendFile(imagePath, err => {
       if (err) {
-        console.error('Erro ao enviar imagem:', err);
+        console.error('Error when uploading image:', err);
         return res.status(err.status || 500).end();
       }
     });
