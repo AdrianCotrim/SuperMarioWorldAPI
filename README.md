@@ -25,7 +25,7 @@ A documentação completa dos endpoints pode ser acessada no link abaixo:
 
 Você também visualizar a documentação no Google Docs:
 
-[SuperMarioWorldAPI DOC]([./SuperMarioWorldAPI_Documentacao.pdf](https://docs.google.com/document/d/1bv3j0OF0rWQ1I07jxbMKRTOgydawhfjRd0bYj7IdJ5c/edit?usp=sharing))
+[SuperMarioWorldAPI DOC](https://docs.google.com/document/d/1bv3j0OF0rWQ1I07jxbMKRTOgydawhfjRd0bYj7IdJ5c/edit?usp=sharing)
 
 
 
