@@ -1,7 +1,5 @@
 # SuperMarioWorldAPI
 
----
-
 # PT-BR
 
 A **Super Mario World API** é um projeto de estudo que fornece uma interface RESTful para acessar dados estruturados sobre o clássico jogo *Super Mario World*, do Super Nintendo. A API disponibiliza informações sobre mundos, inimigos, chefes e suas respectivas relações no jogo.
@@ -21,9 +19,7 @@ A **Super Mario World API** é um projeto de estudo que fornece uma interface RE
 
 A documentação completa dos endpoints pode ser acessada no link abaixo:
 
-[Ir para a documentação](#README_pt.md)
-
----
+[Ir para a documentação](README_pt.md)
 
 ## 📄 Documentação Google Docs
 
@@ -31,7 +27,7 @@ Você também visualizar a documentação no Google Docs:
 
 [SuperMarioWorldAPI DOC]([./SuperMarioWorldAPI_Documentacao.pdf](https://docs.google.com/document/d/1bv3j0OF0rWQ1I07jxbMKRTOgydawhfjRd0bYj7IdJ5c/edit?usp=sharing))
 
----
+
 
 # ENGLISH
 
@@ -46,15 +42,11 @@ The **Super Mario World API** is a study project that provides a RESTful interfa
 - **JavaScript**  
 - **Hosted locally or in the cloud (e.g., Supabase, Railway, etc.)**
 
----
-
 ## 📄 Documentation
 
 The complete list of endpoints is available at the link below:
 
-[Go to Documentation](#README_eng.md)
-
----
+[Go to Documentation](README_eng.md)
 
 ## 📥 Google Docs Documentation
 
