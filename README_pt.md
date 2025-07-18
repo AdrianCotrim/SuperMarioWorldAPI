@@ -27,7 +27,7 @@ Em futuras versões, a autenticação poderá ser implementada para determinados
 
 A Super Mario World API está disponível atualmente em um único ambiente de produção. Todas as requisições devem ser feitas utilizando o seguinte endpoint base:
 
-[_https://supermarioapi.com_](https://supermarioapi.com)
+[_https://supermarioworldapi.vercel.app/_](https://supermarioworldapi.vercel.app/)
 
 # **Formatos de Requisição e Resposta**
 
