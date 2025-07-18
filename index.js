@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
-const db = require('./models');
+const port = process.env.PORT || 3000;
+const db = require('./db'); // agora usa o pool do pg
 
 const characterRoutes = require('./routes/characterRoutes')
 const bossRoutes = require('./routes/bossRoutes')
@@ -25,20 +25,15 @@ app.use('/worlds', worldRoutes)
 app.use('/world_boss', world_bossRoutes)
 app.use('/world_enemy', world_enemyRoutes)
 
-
 app.get('/', (req, res) => {
   res.json({ mensagem: "Super Mario API está no ar!" });
 });
 
+module.exports = app;
 
-db.sequelize.sync({ force: false })
-  .then(() => {
-    console.log('Banco de dados sincronizado com sucesso!');
-  })
-  .catch((err) => {
-    console.error('Erro ao sincronizar o banco de dados:', err);
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Servidor rodando na porta: http://localhost:${port}/`);
   });
+}
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta: http://localhost:${port}/`);
-});
