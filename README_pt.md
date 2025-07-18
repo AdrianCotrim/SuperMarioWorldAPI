@@ -89,63 +89,50 @@ Esta seção descreve a estrutura do banco de dados utilizado pela **Super Mario
 
 Está tabela é sobre todos os personagens jogáveis e não jogáveis.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **name** | Nome do personagem |
-| --- | --- |
 | **description** | Descrição do personagem |
-| --- | --- |
 | **image** | Endereço da imagem do personagem na API |
-| --- | --- |
 
 ## Enemy
 
 Está tabela contém todos os inimigos do jogo.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **name** | Nome do inimigo |
-| --- | --- |
 | **description** | Descrição do inimigo |
-| --- | --- |
 | **image** | Endereço da imagem do inimigo na API |
-| --- | --- |
 | **hp** | Número de golpes necessários para derrotar o inimigo |
-| --- | --- |
 | **behaviour** | Descrição das ações e comportamento do inimigo |
-| --- | --- |
 
 ## Item
 
 Está tabela contém todos os itens colecionáveis, itens para pegar e objetos que restauram a saúde.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **name** | Nome do item |
-| --- | --- |
 | **description** | Descrição do item |
-| --- | --- |
 | **image** | Endereço da imagem do item na API |
-| --- | --- |
 | **type** | Define o tipo do item. Ex: Coletável, Power-Up… |
-| --- | --- |
 | **value** | Valor em pontos que o jogador recebe ao coletar tal item |
-| --- | --- |
 
 ## Boss
 
 Está tabela contém todos chefes do jogo.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **name** | Nome do chefe |
-| --- | --- |
 | **description** | Descrição do chefe |
-| --- | --- |
 | **image** | Endereço da imagem do chefe na API |
-| --- | --- |
 | **hp** | Número de golpes necessários para derrotar o chefe |
-| --- | --- |
 
 ##
 
@@ -153,36 +140,32 @@ Está tabela contém todos chefes do jogo.
 
 Está tabela contém todos os mundos do jogo.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **name** | Nome do mundo |
-| --- | --- |
 | **description** | Descrição do mundo |
-| --- | --- |
 | **image** | Endereço da imagem do mundo na API |
-| --- | --- |
 
 ## World_Enemy
 
 Esta tabela contém os relacionamentos entre inimigos e mundos, indicando em quais mundos cada inimigo pode ser encontrado.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **world_id** | Número de identificação da tabela World |
-| --- | --- |
 | **enemy_id** | Número de identificação da tabela Enemy |
-| --- | --- |
 
 ## World_Boss
 
 Esta tabela contém os relacionamentos entre chefes e mundos, indicando em quais mundos cada chefe pode ser encontrado.
 
+| **Valor** | **Descrição** |
+| --- | --- |
 | **id** | Número de identificação |
-| --- | --- |
 | **world_id** | Número de identificação da tabela World |
-| --- | --- |
 | **boss_id** | Número de identificação da tabela Boss |
-| --- | --- |
 
 # **Endpoints da API**
 
@@ -199,10 +182,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | Search | Não | Filtra personagens por nome | ?search=mario |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -230,17 +213,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Nenhum personagem encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ### **GET** /characters/id
 
@@ -251,10 +232,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um personagem específico baseado no id fornecido | characters/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -270,17 +251,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Personagem não encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -293,9 +272,7 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um personagem específico baseado no id fornecido | characters/1 |
-| --- | --- | --- | --- | --- |
 | Query | image | Não | Retorna imagem do personagem | characters/1/image |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
@@ -306,15 +283,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Personagem não encontrado |
-| --- | --- |
 | 404 | Personagem não tem imagem |
-| --- | --- |
 | 404 | Imagem não encontrada |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ## enemies
 
@@ -327,10 +299,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | Search | Não | Filtra inimigos por nome | ?search=goomba |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -382,17 +354,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Nenhum inimigo encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -405,10 +375,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um inimigo específico baseado no id fornecido | enemies/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -428,17 +398,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Inimigo não encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -451,9 +419,7 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um inimigo específico baseado no id fornecido | enemies/1 |
-| --- | --- | --- | --- | --- |
 | Query | image | Não | Retorna imagem do inimigo | enemies/1/image |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
@@ -464,15 +430,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Inimigo não encontrado |
-| --- | --- |
 | 404 | Inimigo não tem imagem |
-| --- | --- |
 | 404 | Imagem não encontrada |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ##
 
@@ -487,10 +448,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | Search | Não | Filtra itens por nome | ?search=star |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -526,17 +487,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Nenhum item encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -549,10 +508,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um item específico baseado no id fornecido | items/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -572,17 +531,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Item não encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -595,9 +552,7 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um item específico baseado no id fornecido | items/1 |
-| --- | --- | --- | --- | --- |
 | Query | image | Não | Retorna imagem do item | items/1/image |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
@@ -608,15 +563,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Item não encontrado |
-| --- | --- |
 | 404 | Item não tem imagem |
-| --- | --- |
 | 404 | Imagem não encontrada |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ##
 
@@ -631,10 +581,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | Search | Não | Filtra chefes por nome | ?search=bowser |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -666,17 +616,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Nenhum chefe encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -689,10 +637,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um chefe específico baseado no id fornecido | bosses/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -710,17 +658,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Chefe não encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -733,9 +679,7 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um chefe específico baseado no id fornecido | bosses/1 |
-| --- | --- | --- | --- | --- |
 | Query | image | Não | Retorna imagem do chefe | bosses/1/image |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
@@ -746,15 +690,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Chefe não encontrado |
-| --- | --- |
 | 404 | Chefe não tem imagem |
-| --- | --- |
 | 404 | Imagem não encontrada |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ##
 
@@ -769,10 +708,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | Search | Não | Filtra mundos por nome | ?search=yoshi island |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -800,17 +739,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Nenhum mundo encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -823,10 +760,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um mundo específico baseado no id fornecido | worlds/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -842,17 +779,15 @@ Aqui estão os endpoints separados por tabela.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Mundo não encontrado |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -865,9 +800,7 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | id  | Sim | Procura um mundo específico baseado no id fornecido | worlds/1 |
-| --- | --- | --- | --- | --- |
 | Query | image | Não | Retorna imagem do mundo | worlds/1/image |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
@@ -878,15 +811,10 @@ Aqui estão os endpoints separados por tabela.
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 404 | Mundo não encontrado |
-| --- | --- |
 | 404 | Mundo não tem imagem |
-| --- | --- |
 | 404 | Imagem não encontrada |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ##
 
@@ -902,6 +830,7 @@ Este endpoint não possuí parâmetros.
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -925,15 +854,14 @@ Este endpoint não possuí parâmetros.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -946,10 +874,10 @@ Este endpoint não possuí parâmetros.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | world_id | Sim | Retorna lista de inimigos do mundo especificado | world_enemy/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -969,19 +897,16 @@ Este endpoint não possuí parâmetros.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 400 | world_id é necessário |
-| --- | --- |
 | 404 | Nenhum inimigo encontrado para este mundo |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ## world_boss
 
@@ -995,6 +920,7 @@ Este endpoint não possuí parâmetros.
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -1018,15 +944,14 @@ Este endpoint não possuí parâmetros.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
@@ -1039,10 +964,10 @@ Este endpoint não possuí parâmetros.
 | **Código** | **Nome** | **Obrigatório** | **Descrição** | **Exemplo** |
 | --- | --- | --- | --- | --- |
 | Query | world_id | Sim | Retorna chefe do mundo especificado | world_boss/1 |
-| --- | --- | --- | --- | --- |
 
 **Exemplo de Resposta (200)OK:**
 
+```
 \[
 
 {
@@ -1064,19 +989,16 @@ Este endpoint não possuí parâmetros.
 }
 
 \]
+```
 
 **Códigos de Resposta:**
 
 | **Código** | **Descrição** |
 | --- | --- |
 | 200 | Requisição bem-sucedida |
-| --- | --- |
 | 400 | world_id é necessário |
-| --- | --- |
 | 404 | Nenhum chefe encontrado para este mundo |
-| --- | --- |
 | 500 | Erro interno no servidor |
-| --- | --- |
 
 ###
 
